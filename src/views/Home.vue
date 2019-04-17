@@ -10,10 +10,11 @@
     </div>
     <slider :sliders="sliders"></slider>
     <top-nav @toggleContact="showContact"></top-nav>
-    <coupon @toggleContact="showContact"></coupon>
+    <coupon @toggleContact="showContact" @accessCoupon="accessCoupon"></coupon>
     <events @toggleContact="showContact"></events>
     <category @toggleContact="showContact"></category>
     <product :dinner="dinner"></product>
+    <access :accessed="accessed"></access>
   </div>
 </template>
 
@@ -24,7 +25,9 @@ import Coupon from '@/components/home/Coupon.vue'
 import Events from '@/components/home/Events.vue'
 import Category from '@/components/home/Category.vue'
 import Product from '@/components/home/Product.vue'
+import Access from '@/components/common/Access.vue'
 import axios from 'axios'
+import { setTimeout } from 'timers'
 
 const ERR_OK = 0
 
@@ -33,7 +36,8 @@ export default {
   data () {
     return {
       sliders: [],
-      dinner: []
+      dinner: [],
+      accessed: false
     }
   },
   created () {
@@ -45,20 +49,32 @@ export default {
       this.$emit('toggleContact', true)
     },
     getSlidersData () {
-      axios.get('/api/sliders').then((res) => {
+      axios.get('https://www.easy-mock.com/mock/5cb6d7687d203015af9dc323/api/sliders').then((res) => {
         const { code, data } = res.data
         if (code === ERR_OK) {
-          this.sliders = data
+          this.sliders = data.sliders
         }
       })
     },
     getDinnerData () {
-      axios.get('/api/dinner').then((res) => {
+      axios.get('https://www.easy-mock.com/mock/5cb6d7687d203015af9dc323/api/dinner').then((res) => {
         const { code, data } = res.data
         if (code === ERR_OK) {
-          this.dinner = data
+          this.dinner = data.dinner
         }
       })
+    },
+    accessCoupon (index) {
+      let timer = null
+      if (timer) {
+        return
+      }
+      timer = setTimeout(() => {
+        this.accessed = true
+        setTimeout(() => {
+          this.accessed = false
+        }, 1200)
+      }, 400)
     }
   },
   components: {
@@ -67,7 +83,8 @@ export default {
     Coupon,
     Events,
     Category,
-    Product
+    Product,
+    Access
   }
 }
 </script>

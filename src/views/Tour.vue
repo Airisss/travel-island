@@ -90,10 +90,10 @@ export default {
       this.$router.push(`/tour/${id}`)
     },
     getToursData () {
-      axios.get('/api/tours').then((res) => {
+      axios.get('https://www.easy-mock.com/mock/5cb6d7687d203015af9dc323/api/tours').then((res) => {
         const { code, data } = res.data
         if (code === ERR_OK) {
-          this.tours = data
+          this.tours = data.tours
           console.log(data)
         }
       })

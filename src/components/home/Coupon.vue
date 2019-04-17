@@ -1,34 +1,59 @@
 <template>
   <div class="coupon">
-    <div class="coupon-item" @click="showContact">
+    <div class="coupon-item" @click="showAccess(1)" ref="couponA">
       购买任意产品+$130<br>
       即可获得<b>船票抵用券</b>
-      <div class="access">
-        领<br>取
-      </div>
+      <div class="access" v-html="contentA"></div>
     </div>
-    <div class="coupon-item" @click="showContact">
+    <div class="coupon-item" @click="showAccess(2)" ref="couponB">
       购买任意产品<br>
       即可预定<b>超低价酒店</b>
-      <div class="access">
-        领<br>取
-      </div>
+      <div class="access" v-html="contentB"></div>
     </div>
   </div>
 </template>
 
 <script>
+import { setTimeout } from 'timers'
+
 export default {
   name: 'Coupon',
+  data () {
+    return {
+      content: ['领<br>取', '已<br>领'],
+      contentA: '领<br>取',
+      contentB: '领<br>取'
+    }
+  },
   methods: {
-    showContact () {
-      this.$emit('toggleContact', true)
+    showAccess (index) {
+      if (index === 1) {
+        if (this.contentA === this.content[1]) {
+          return
+        }
+        this.$emit('accessCoupon', index)
+        setTimeout(() => {
+          this.$refs.couponA.classList.add('accessed')
+          this.contentA = this.content[1]
+        }, 400)
+      } else {
+        if (this.contentB === this.content[1]) {
+          return
+        }
+        this.$emit('accessCoupon', index)
+        setTimeout(() => {
+          this.$refs.couponB.classList.add('accessed')
+          this.contentB = this.content[1]
+        }, 400)
+      }
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
+  @import "~../../assets/stylus/varible.styl"
+
   .coupon
     padding: 0 12px 10px
     display: flex
@@ -45,6 +70,9 @@ export default {
       font-size: 12px
       box-shadow: 0px 6px 10px #eee
       overflow: hidden
+      &.accessed
+        background-color: $color-text-second
+        color: rgba(255, 255, 255, 0.8)
       &:nth-of-type(1)
         margin-right: 9px
       &:before

@@ -65,10 +65,10 @@ export default {
       this.$router.push(`/dinner/${id}`)
     },
     getDinnerData () {
-      axios.get('/api/dinner').then((res) => {
+      axios.get('https://www.easy-mock.com/mock/5cb6d7687d203015af9dc323/api/dinner').then((res) => {
         const { code, data } = res.data
         if (code === ERR_OK) {
-          this.dinners = data
+          this.dinners = data.dinner
         }
       })
     }

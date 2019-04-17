@@ -86,17 +86,16 @@ export default {
       this.$emit('toggleContact', true)
     },
     getDetailData (id) {
-      axios.get('/api/tickets').then((res) => {
+      axios.get('https://www.easy-mock.com/mock/5cb6d7687d203015af9dc323/api/tickets').then((res) => {
         const { code, data } = res.data
         if (code === ERR_OK) {
           const _that = this
-          data.forEach(function (item, index) {
+          const realData = data.tickets
+          realData.forEach(function (item, index) {
             if (item.id === id) {
               _that.ticket = item
               _that.tables = _that.ticket.detail.tables
               _that.content = _that.ticket.detail.content
-              console.log(_that.tables)
-              console.log(_that.content)
             }
           })
         }

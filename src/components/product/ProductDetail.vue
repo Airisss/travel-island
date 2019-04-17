@@ -126,20 +126,18 @@ export default {
       this.$emit('toggleContact', true)
     },
     getDetailData (id) {
-      axios.get('/api/dinner').then((res) => {
+      axios.get('https://www.easy-mock.com/mock/5cb6d7687d203015af9dc323/api/dinner').then((res) => {
         const { code, data } = res.data
         if (code === ERR_OK) {
           const _that = this
-          data.forEach(function (item, index) {
+          const realData = data.dinner
+          realData.forEach(function (item, index) {
             if (item.id === id) {
               _that.currentDinner = item
               const detailData = _that.currentDinner.detail
               _that.sliders = detailData.sliders
               _that.tables = detailData.tables
               _that.content = detailData.content
-              console.log(_that.sliders)
-              console.log(_that.currentDinner)
-              console.log(_that.tables)
             }
           })
         }

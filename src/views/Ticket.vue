@@ -63,10 +63,10 @@ export default {
       this.$router.push(`/ticket/${id}`)
     },
     getTicketsData () {
-      axios.get('/api/tickets').then((res) => {
+      axios.get('https://www.easy-mock.com/mock/5cb6d7687d203015af9dc323/api/tickets').then((res) => {
         const { code, data } = res.data
         if (code === ERR_OK) {
-          this.tickets = data
+          this.tickets = data.tickets
         }
       })
     }
